@@ -11,9 +11,6 @@ env_settings = config.EnvironmentSettings(root_folder_path)
 # initialize Flask app
 app = Flask(__name__)
 
-# configure Flask app from a class, stored in PLAZA_SETTINGS variable
-app.config.from_object(env_settings['PLAZA_SETTINGS'])
-
 
 from scripts_bank.integration_helpers.cfg_rootifier.conf_rootifier import conf_rootifier_bp
 app.register_blueprint(conf_rootifier_bp, url_prefix='/int_helpers')
@@ -27,6 +24,8 @@ def about():
     return render_template('index.html')
 
 if __name__ == '__main__':
+    # configure Flask app from a class, stored in PLAZA_SETTINGS variable
+    app.config.from_object(env_settings['PLAZA_SETTINGS'])
     # if we are in Prod, use HOST and PORT specified
     try:
         app.run(host=str(env_settings['HOST']), port=80)
