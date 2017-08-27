@@ -80,14 +80,14 @@ def rootify(clean_cfg):
 #### FLASK ####
 ###############
 
-conf_rootifier_bp = Blueprint('conf_rootifier', __name__, template_folder='templates', static_folder='static',
-                              static_url_path='/cfg_rootifier/static')
+sros_rootifier_bp = Blueprint('sros_rootifier', __name__, template_folder='templates', static_folder='static',
+                              static_url_path='/sros_rootifier/static')
 
 
-@conf_rootifier_bp.route('/config_rootifier', methods=['GET', 'POST'])
-def conf_rootifier():
+@sros_rootifier_bp.route('/sros_rootifier', methods=['GET', 'POST'])
+def sros_rootifier():
     if request.method == 'GET':
-        return render_template('conf_rootifier.html')
+        return render_template('sros_rootifier.html')
 
     # handle POST method from JQuery (will be filled later)
     elif request.method == 'POST':

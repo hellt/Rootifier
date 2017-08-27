@@ -12,12 +12,12 @@ env_settings = config.EnvironmentSettings(root_folder_path)
 app = Flask(__name__)
 
 
-from scripts_bank.integration_helpers.cfg_rootifier.conf_rootifier import conf_rootifier_bp
-app.register_blueprint(conf_rootifier_bp, url_prefix='/int_helpers')
+from sros_rootifier.sros_rootifier import sros_rootifier_bp
+app.register_blueprint(sros_rootifier_bp)
 
 @app.route('/')
 def index():
-    return redirect('/int_helpers/config_rootifier')
+    return redirect('/sros_rootifier')
 
 @app.route('/about')
 def about():
