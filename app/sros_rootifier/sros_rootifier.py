@@ -84,7 +84,7 @@ sros_rootifier_bp = Blueprint('sros_rootifier', __name__, template_folder='templ
                               static_url_path='/sros_rootifier/static')
 
 
-@sros_rootifier_bp.route('/sros_rootifier', methods=['GET', 'POST'])
+@sros_rootifier_bp.route('/', methods=['GET', 'POST'])
 def sros_rootifier():
     if request.method == 'GET':
         return render_template('sros_rootifier.html')
