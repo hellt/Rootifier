@@ -1,7 +1,9 @@
-from flask import Flask, render_template, redirect, url_for
 import os
-import config
 
+from flask import Flask, redirect, render_template, url_for
+
+import config
+from sros_rootifier.sros_rootifier import sros_rootifier_bp
 
 root_folder_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -12,16 +14,13 @@ env_settings = config.EnvironmentSettings(root_folder_path)
 app = Flask(__name__)
 
 
-from sros_rootifier.sros_rootifier import sros_rootifier_bp
 app.register_blueprint(sros_rootifier_bp)
+
 
 @app.route('/')
 def index():
     return redirect('/sros_rootifier')
 
-@app.route('/about')
-def about():
-    return render_template('index.html')
 
 if __name__ == '__main__':
     # configure Flask app from a class, stored in PLAZA_SETTINGS variable

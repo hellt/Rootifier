@@ -1,8 +1,6 @@
 import re
-from flask import render_template, request, Blueprint, jsonify
 
-
-
+from flask import Blueprint, jsonify, render_template, request
 
 
 def rm_insignificant_lines(in_cfg):
@@ -52,14 +50,16 @@ def rootify(clean_cfg):
             cfg_string.pop()
             # removing (if any) `customer xxx create` or `create` at the end of the line
             # since it was previously printed out
-            cfg_string[-1] = re.sub('\scustomer\s\d+\screate$|\screate$','', cfg_string[-1])
+            cfg_string[-1] = re.sub('\scustomer\s\d+\screate$|\screate$',
+                                    '', cfg_string[-1])
             cfg_string.append(line.strip())
 
         prev_ind_level = cur_ind_level
 
         ## if we have a next line go check it's indent value
-        if i < len(clean_cfg)-1:
-            next_ind_level = len(clean_cfg[i + 1]) - len(clean_cfg[i + 1].lstrip())
+        if i < len(clean_cfg) - 1:
+            next_ind_level = len(
+                clean_cfg[i + 1]) - len(clean_cfg[i + 1].lstrip())
             # if a next ind level is depper (>) then we can continue accumulation
             # of the commands
             if next_ind_level > prev_ind_level:
@@ -74,11 +74,10 @@ def rootify(clean_cfg):
     return rootified_cfg
 
 
-
-
 ###############
 #### FLASK ####
 ###############
+
 
 sros_rootifier_bp = Blueprint('sros_rootifier', __name__, template_folder='templates', static_folder='static',
                               static_url_path='/sros_rootifier/static')

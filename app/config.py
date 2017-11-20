@@ -9,6 +9,7 @@ class Base(object):
 
 class Development(Base):
     DEBUG = True
+    TEMPLATES_AUTO_RELOAD = True
 
 
 class Production(Base):

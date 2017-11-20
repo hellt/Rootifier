@@ -57,10 +57,27 @@
   background-color: #124191;
 }*/
 
+html {
+    overflow-y: scroll;
+}
+
 /*override bootstrap font settings fot the whole template*/
 body {
     font-size: 16px;
     font-family: Nokia Pure Text, Helvetica Neue, Helvetica,Arial,sans-serif
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 30px;
+  background-color: #f5f5f5e0;
+}
+
+.container .text-muted {
+  margin: 5px 0;
 }
 
 .nav-side-menu {

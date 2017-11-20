@@ -8,8 +8,13 @@
         <title>SROS Rootifier</title>
         <meta name="description" content="SROS Rootifier">
         <meta name="author" content="Roman Dodin">
+        <!-- bootstrap v3 -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
             crossorigin="anonymous">
+
+        <!-- bootstrap v4 -->
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+            crossorigin="anonymous"> -->
         <link href="/static/css/style.css" rel="stylesheet"> <!-- custom CSS -->
         <link href="/static/css/font-awesome.min.css" rel="stylesheet">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
@@ -30,7 +35,7 @@
                     <ul class="nav navbar-nav">
 
                         <li>
-                            <a href="/about">About</a>
+                            <a href="https://netdevops.me/2017/flask-application-in-a-production-ready-container/">About</a>
                         </li>
                     </ul>
                 </div>
@@ -49,12 +54,26 @@
                 <!-- END OF CONTENT AREA -->
             </div>
         </div>
+        
+        <footer class="footer">
+            <div class="container">
+                <p class="text-muted">Made by <a href="https://twitter.com/ntdvps">Roman Dodin</a>. (c) 2017</p>
+            </div>
+        </footer>
 
-
+        <!-- JQ 2.2.4 -->
         <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
             crossorigin="anonymous"></script>
+        <!-- bootstrap v3 -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+        <!-- bootstrap v4 -->
+        <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+            crossorigin="anonymous"></script> -->
         <script src="/static/js/scripts.js"></script>            <!-- custom JS -->
         <script src="/static/js/validator.min.js"></script>      <!-- https://github.com/1000hz/bootstrap-validator -->
         <script src="/static/js/loadingoverlay.min.js"></script> <!-- http://gasparesganga.com/labs/jquery-loading-overlay/-->

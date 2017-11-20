@@ -18,6 +18,7 @@ $(function() {
                     $('#output_div').html(response.error)
                 } else {
                     $('#output_config_area').val(response.output_data)
+                    $('a[href="#output_cfg_tab"]').tab('show')
                 }
             }
         });

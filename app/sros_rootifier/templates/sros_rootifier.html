@@ -7,144 +7,118 @@
 Safe command is a <kbd>/</kbd>-based command!
 {% endblock %}
 
-{% block descr %}
-When an engineer configures remote device via telnet/ssh it is safer to use configuration commands
-in a <i>full-context</i> fashion. This best-practice comes from a sad fact that large configuration snippets may render corrupted
-while pasting large chunks of data procedure in the terminal window. Chances are you end up with an inconsistent configuration or even an
-outage.
-<p>With this script one can transform tree-based config into full-context (aka display-set) in a blink of an eye.</p>
-<p>This script is a part of a <a href="/about">PLAZA project</a>.</p>
-{% endblock %}
-
-{% block usage %}
-Paste configuration lines, hit <kbd>Submit</kbd> and grab rootified config from the output panel.
-{% endblock %}
-
-{% block limitations %}
-<div class="alert alert-warning" role="alert">
-  <a data-toggle="collapse" href="#limitationsSection" aria-expanded="false" aria-controls="limitationsSection">
-    <strong>Warning!</strong> The current version of the code has some serious assumptions! Read thoroughly!
-  </a>
-</div>
-<div class="collapse" id="limitationsSection">
-  <div class="well">
-    <p>
-      <ul>
-        <li>Code is sensible to indentation. Paste the configuration code as you see it on a router</li>
-        <li>Script will take into account only the lines starting with <strong>4 spaces.</strong><br>
-        You can pass as input something like this:
-            <pre>
-#--------------------------------------------------
-echo "System Configuration"
-#--------------------------------------------------
-    system
-        name "MPLS-078-2878-BH02"
-        snmp
-            packet-size 9216
-        exit
-        login-control
-            pre-login-message "MPLS-078-2878-BH02"
-        exit
-            </pre>
-            or this:
-            <pre>
-    port 1/1/2
-        shutdown
-        ethernet
-        exit
-    exit
-    port 1/1/3
-        shutdown
-        ethernet
-        exit
-    exit
-            </pre>
-            or even the whole configuration file!
-            <p>
-                But you can't paste configuration statements which are not nested under <kbd>configure</kbd> section.
-                For example this will produce erroneous output:
-            <pre>
-            lldp
-                dest-mac nearest-bridge
-                    admin-status tx-rx
-                    notification
-                    tx-tlvs port-desc sys-cap
-                    tx-mgmt-address system
-                exit
-            exit
-            </pre>
-            </p>
-        </li>
-    </p>
-  </div>
-</div>
-<div class="alert alert-warning" role="alert">
-    Always use the outputs in a lab environment first!
-</div>
-{% endblock %}
-
-{% block author %}
-Roman Dodin
-{% endblock %}
-
-{% block version %}
-0.2
-{% endblock %}
-
-{% block tags %}
-config, SROS, TiMOS
-{% endblock %}
-
-{% block script_content %}
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Input Config</h3>
-                </div>
-                <div class="panel-body">
-                    <!-- FORM -->
-                    <form role="form" method="post">
-                        <div class="form-group col-md-12">
-                            <label for="raw_config_area">
-                                Paste your config here
-                            </label>
-                            <textarea style="font-family:monospace;" id="raw_config_area" class="form-control" rows="20"></textarea>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <div> <!-- RD: type="submit" changed to button, since JQuery is in use -->
-                                <button class="btn btn-primary" id="submit_form" name="submit" type="button">
-                                    Submit
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- OUTPUT SECTION -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Rootified config</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="col-md-12" id="output_div">
-                        <label for="raw_config_area">
-                            Grab your config here
-                        </label>
-                        <textarea style="font-family:monospace;" id="output_config_area" class="form-control" rows="20"></textarea>
+{% block main %}
+<p><strong>Rootifier</strong> transforms tree-based SROS config into a rootified (aka <i>display-set</i>) one.</p>
+<center><img src="https://gitlab.com/rdodin/netdevops.me/uploads/29184e488b07d8b5efb77d367a9e41ce/image.png" alt="rootifier_in_action"></center>
+<br/>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#input_cfg_tab" aria-controls="home" role="tab" data-toggle="tab">Input config</a></li>
+    <li role="presentation"><a href="#output_cfg_tab" aria-controls="profile" role="tab" data-toggle="tab">Rootified config</a></li>
+</ul>
+<!-- Tab panes -->
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="input_cfg_tab">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <!-- INPUT FORM -->
+                <form role="form" method="post">
+                    <div class="form-group">
+                        <textarea style="font-family:monospace;" id="raw_config_area" class="form-control" rows="20"></textarea>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <div>
+                            <!-- RD: type="submit" changed to button, since JQuery is in use -->
+                            <button class="btn btn-primary" id="submit_form" name="submit" type="button">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-            <!-- END OF OUTPUT SECTION -->
+    </div>
+    <div role="tabpanel" class="tab-pane" id="output_cfg_tab">
+        <!-- OUTPUT SECTION -->
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="output_div">
+                    <textarea style="font-family:monospace;" id="output_config_area" class="form-control" rows="20"></textarea>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
+
+{% block usage %}
+<!-- <div class="row"> -->
+<h2>Usage and Limitations</h2>
+<p>Paste configuration lines, hit
+    <kbd>Submit</kbd> and grab rootified config from the output panel.
+</p>
+<h3></h3>
+<p>
+    <ul>
+        <li>Rootifier is sensible to indentation and spacing of the input config. Paste the configuration lines as you see them
+            in a router.</li>
+        <li>Rootifier treats a line that starts with
+            <strong>4 spaces</strong> as a first configuration line.</li>
+    </ul>
+</p>
+<p>You can pass as input something like this:
+    <pre>
+  #--------------------------------------------------
+  echo "System Configuration"
+  #--------------------------------------------------
+      system
+          name "MPLS-078-2878-BH02"
+          snmp
+              packet-size 9216
+          exit
+          login-control
+              pre-login-message "MPLS-078-2878-BH02"
+          exit
+              </pre> or this:
+    <pre>
+      port 1/1/2
+          shutdown
+          ethernet
+          exit
+      exit
+      port 1/1/3
+          shutdown
+          ethernet
+          exit
+      exit
+            </pre> or even the whole configuration file!</p>
+<p>
+    But you can't paste configuration statements which are not nested under
+    <kbd>configure</kbd> section. For example this piece will produce erroneous output because it is nested few levels deeper
+    then
+    <kbd>configure</kbd> section:
+    <pre>
+                    lldp
+                        dest-mac nearest-bridge
+                            admin-status tx-rx
+                            notification
+                            tx-tlvs port-desc sys-cap
+                            tx-mgmt-address system
+                        exit
+                    exit
+        </pre>
+</p>
+</li>
+</p>
+
+<div class="alert alert-warning" role="alert">
+    And remember, <strong>always</strong> check the outputs in a lab environment first!
+</div>
+<!-- </div> -->
+{% endblock %}
+
+
+
 {% block added_js %}
 <script src="{{ url_for('sros_rootifier.static', filename='sros_rootifier.js') }}"></script>
 {% endblock %}
